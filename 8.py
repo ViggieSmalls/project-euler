@@ -1,0 +1,54 @@
+import timeit
+
+
+n = 7316717653133062491922511967442657474235534919493496983520312774506326239578318016984801869478851843858615607891129494954595017379583319528532088055111254069874715852386305071569329096329522744304355766896648950445244523161731856403098711121722383113622298934233803081353362766142828064444866452387493035890729629049156044077239071381051585930796086670172427121883998797908792274921901699720888093776657273330010533678812202354218097512545405947522435258490771167055601360483958644670632441572215539753697817977846174064955149290862569321978468622482839722413756570560574902614079729686524145351004748216637048440319989000889524345065854122758866688116427171479924442928230863465674813919123162824586178664583591245665294765456828489128831426076900422421902267105562632111110937054421750694165896040807198403850962455444362981230987879927244284909188845801561660979191338754992005240636899125607176060588611646710940507754100225698315520005593572972571636269561882670428252483600823257530420752963450
+as_str = str(n)
+
+
+def mult(ary):
+    r = 1
+    for i in ary:
+        r *= i
+    return r
+
+
+def trying_to_be_smart(n_digits):
+    best_digits = ''
+    maximum = 0
+    the_mighty_12 = 0
+    for i in range(len(as_str)-n_digits):
+        substr = as_str[i:i+n_digits]
+        nrs = list(map(int, list(substr)))
+        if not the_mighty_12:
+            the_mighty_12 = mult(nrs[1:])
+            r = nrs[0] * the_mighty_12
+        else:
+            r = the_mighty_12 * nrs[n_digits-1]
+            the_mighty_12 = r / nrs[0]
+
+        if r > maximum:
+            maximum = r
+            best_digits = substr
+    return best_digits
+
+
+def brute_force(n_digits):
+    maximum = 0
+    result = ''
+    for i in range(len(as_str)-n_digits):
+        substr = as_str[i:i + n_digits]
+        nrs = list(map(int, list(substr)))
+        r = mult(nrs)
+        if r > maximum:
+            maximum = r
+            result = substr
+    return result
+
+
+smart = timeit.timeit(trying_to_be_smart(20), number=1000)
+brute = timeit.timeit(brute_force(20), number=1000)
+print('smart: ' + str(smart))
+print('brute_force: ' + str(brute))
+print('{} is better'.format('smart' if smart < brute else 'brute'))
+if smart < brute:
+    print("Don't try to be smart")
