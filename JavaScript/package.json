@@ -1,0 +1,9 @@
+{
+  "name": "project-euler",
+  "description": "",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Victor Movileanu",
+  "license": "ISC"
+}
