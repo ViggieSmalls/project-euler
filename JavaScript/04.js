@@ -33,4 +33,6 @@ while (found === false) {
     n += 1
 }
 
-console.log(x*y)
+if (require.main === module) {
+    console.log(x*y)
+}
